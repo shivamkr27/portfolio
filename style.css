@@ -246,13 +246,7 @@
     display: flex;
   }
 
-  .nav-links li {
-    margin: 1rem 0;
-  }
 
-  .hamburger {
-    display: block;
-  }
 
   .projects-grid {
     grid-template-columns: 1fr;
