@@ -125,17 +125,7 @@ body {
   gap: 2rem;
 }
 
-.project-card {
-  background: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  animation: fadeIn 0.5s ease forwards;
-}
+
 
 .project-card:hover {
   transform: translateY(-10px);
