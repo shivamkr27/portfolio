@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-theme="light">
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
@@ -18,6 +18,9 @@
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
+      <div class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+        <span class="theme-icon">☀️</span>
+      </div>
       <div class="hamburger" id="hamburger">☰</div>
     </div>
   </nav>
@@ -51,28 +54,17 @@
   <section id="projects" class="section">
     <div class="container">
       <h2>My Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1516321310768-61f0f8b1dd1f" alt="Web app interface">
-          <div class="project-info">
-            <h3>Project 1</h3>
-            <p>A web app built with HTML, CSS, and JavaScript.</p>
-          </div>
-        </div>
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" alt="Portfolio website">
-          <div class="project-info">
-            <h3>Project 2</h3>
-            <p>A responsive portfolio website using React.</p>
-          </div>
-        </div>
-        <div class="project-card">
-          <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6" alt="E-commerce platform">
-          <div class="project-info">
-            <h3>Project 3</h3>
-            <p>An e-commerce platform with dynamic features.</p>
-          </div>
-        </div>
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+    <!-- Modal -->
+    <div class="modal" id="project-modal">
+      <div class="modal-content">
+        <span class="modal-close">×</span>
+        <img class="modal-image" id="modal-image" alt="Project image">
+        <h3 id="modal-title"></h3>
+        <p id="modal-description"></p>
+        <p id="modal-details"></p>
+        <a id="modal-demo" href="#" target="_blank" class="modal-demo-link">View Demo</a>
       </div>
     </div>
   </section>
