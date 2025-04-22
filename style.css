@@ -4,7 +4,11 @@
   box-sizing: border-box;
 }
 
-
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
 
 /* Navbar */
 .navbar {
@@ -31,6 +35,10 @@
   color: #007BFF;
 }
 
+.nav-links {
+  list-style: none;
+  display: flex;
+}
 
 .nav-links li {
   margin-left: 2rem;
@@ -43,9 +51,15 @@
   transition: color 0.3s;
 }
 
+.nav-links a:hover {
+  color: #007BFF;
+}
 
-
-
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
 
 /* Hero Section */
 .hero {
@@ -59,6 +73,15 @@
   padding: 2rem;
 }
 
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
 
 .cta-button {
   background: #fff;
@@ -91,9 +114,22 @@
   color: #007BFF;
 }
 
+/* About */
+.about-content {
+  text-align: center;
+}
 
+.about-content p {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
 
-
+.skills {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
 
 .skill {
   background: #f0f0f0;
@@ -101,7 +137,12 @@
   border-radius: 5px;
 }
 
-
+/* Projects */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
 
 .project-card {
   background: #fff;
@@ -123,7 +164,9 @@
   display: block; /* Ensure no extra spacing */
 }
 
-
+.project-info {
+  padding: 1rem;
+}
 
 .project-info h3 {
   margin-bottom: 0.5rem;
@@ -213,11 +256,15 @@
     display: flex;
   }
 
+  .nav-links li {
+    margin: 1rem 0;
+  }
 
+  .hamburger {
+    display: block;
+  }
 
   .projects-grid {
-    grid-template-columns: 1fr;
-  }
 
   .hero h1 {
     font-size: 2rem;
