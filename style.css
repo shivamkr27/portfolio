@@ -47,9 +47,7 @@
   transition: color 0.3s;
 }
 
-.nav-links a:hover {
-  color: #007BFF;
-}
+
 
 .hamburger {
   display: none;
