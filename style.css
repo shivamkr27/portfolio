@@ -96,10 +96,6 @@
   text-align: center;
 }
 
-.about-content p {
-  max-width: 800px;
-  margin: 0 auto 2rem;
-}
 
 .skills {
   display: flex;
