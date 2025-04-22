@@ -1,21 +1,43 @@
-// Fetch user data from Google Apps Script
-async function fetchUserData() {
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxRyAxr9YCd89NeUbifHwgEvTDsqnKgFevzXSnj--jhLhkNcSThVQJw1S0Yc23wRTcx/exec'); // Replace with your web app URL
-    const data = await response.json();
-    document.getElementById('user-name').textContent = data.name || 'Name not provided';
-    document.getElementById('personal-description').textContent = data.personalDescription || 'Description not provided';
-    document.getElementById('education').textContent = data.education || 'Education not provided';
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    document.getElementById('user-name').textContent = 'Error loading name';
-    document.getElementById('personal-description').textContent = 'Error loading description';
-    document.getElementById('education').textContent = 'Error loading education';
-  }
+var gk_isXlsx = false;
+var gk_xlsxFileLookup = {};
+var gk_fileData = {};
+
+function filledCell(cell) {
+  return cell !== '' && cell != null;
 }
 
-// Run on page load
-window.addEventListener('DOMContentLoaded', fetchUserData);
+function loadFileData(filename) {
+  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+    try {
+      var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+      var firstSheetName = workbook.SheetNames[0];
+      var worksheet = workbook.Sheets[firstSheetName];
+
+      // Convert sheet to JSON to filter blank rows
+      var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+      // Filter out blank rows (rows where all cells are empty, null, or undefined)
+      var filteredData = jsonData.filter(row => row.some(filledCell));
+
+      // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+      var headerRowIndex = filteredData.findIndex((row, index) =>
+        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+      );
+      // Fallback
+      if (headerRowIndex === -1 || headerRowIndex > 25) {
+        headerRowIndex = 0;
+      }
+
+      // Convert filtered JSON back to CSV
+      var csv = XLSX.utils.sheet_to_sheet(filteredData.slice(headerRowIndex));
+      csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+      return csv;
+    } catch (e) {
+      console.error(e);
+      return "";
+    }
+  }
+  return gk_fileData[filename] || "";
+}
 
 // Smooth scrolling for nav links
 document.querySelectorAll('.nav-link, .cta-button').forEach(link => {
@@ -38,8 +60,31 @@ hamburger.addEventListener('click', () => {
   navLinks.classList.toggle('active');
 });
 
-// Form validation
+// Theme toggle
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = themeToggle.querySelector('.theme-icon');
+
+// Load saved theme from localStorage
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+updateThemeIcon(savedTheme);
+
+themeToggle.addEventListener('click', () => {
+  const currentTheme = document.body.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  document.body.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeIcon(newTheme);
+});
+
+function updateThemeIcon(theme) {
+  themeIcon.textContent = theme === 'light' ? '☀️' : '🌙';
+}
+
+// Form submission to Google Sheets
 const form = document.getElementById('contact-form');
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzVTpOBoxtwSAvTcVHal8mXnPqNPuFZqa1CS6CWhoyFWEyA74NifDDKXCDfELk0AWfiNw/exec'; // Replace with your Google Apps Script web app URL
+
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   const name = document.getElementById('name').value.trim();
@@ -57,8 +102,31 @@ form.addEventListener('submit', (e) => {
     return;
   }
 
-  alert('Message sent successfully! (This is a demo.)');
-  form.reset();
+  const data = {
+    name: name,
+    email: email,
+    message: message
+  };
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(result => {
+      if (result.result === 'success') {
+        alert('Message sent successfully!');
+        form.reset();
+      } else {
+        alert('Error sending message: ' + result.error);
+      }
+    })
+    .catch(error => {
+      alert('Error sending message: ' + error.message);
+    });
 });
 
 // Dynamic Projects
