@@ -101,12 +101,7 @@
   border-radius: 5px;
 }
 
-/* Projects */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-}
+
 
 .project-card {
   background: #fff;
