@@ -31,10 +31,6 @@
   color: #007BFF;
 }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-}
 
 .nav-links li {
   margin-left: 2rem;
