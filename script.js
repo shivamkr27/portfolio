@@ -92,7 +92,7 @@ form.addEventListener('submit', (e) => {
   const message = document.getElementById('message').value.trim();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!name || !email || !message) {
+  if (!name || !email || !text) {
     alert('Please fill in all fields.');
     return;
   }
@@ -105,7 +105,7 @@ form.addEventListener('submit', (e) => {
   const data = {
     name: name,
     email: email,
-    message: message
+    text: text
   };
 
   fetch(scriptURL, {
@@ -125,7 +125,7 @@ form.addEventListener('submit', (e) => {
       }
     })
     .catch(error => {
-      alert('Error sending message: ' + error.message);
+      alert('Error sending message: ' + error.text);
     });
 });
 
